@@ -4,7 +4,7 @@
       "Leon Timmermans <leont@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300000, CPAN::Meta::Converter version 2.110440",
+   "generated_by" : "Dist::Zilla version 4.300006, CPAN::Meta::Converter version 2.120920",
    "license" : [
       "perl_5"
    ],
@@ -21,20 +21,21 @@
       },
       "runtime" : {
          "requires" : {
-            "CPAN::Meta" : 0,
+            "CPAN::Meta" : "0",
+            "CPAN::Meta::Check" : "0",
             "Exporter" : "5.57",
-            "List::Util" : 0,
-            "Module::Metadata" : 0,
-            "Test::More" : 0,
+            "List::Util" : "0",
+            "Module::Metadata" : "0",
+            "Test::Builder" : "0",
             "perl" : "5.006",
-            "strict" : 0,
-            "warnings" : 0
+            "strict" : "0",
+            "warnings" : "0"
          }
       },
       "test" : {
          "requires" : {
-            "File::Find" : 0,
-            "File::Temp" : 0,
+            "File::Find" : "0",
+            "File::Temp" : "0",
             "Test::More" : "0.88"
          }
       }
@@ -44,8 +45,13 @@
       "bugtracker" : {
          "mailto" : "bug-test-checkdeps at rt.cpan.org",
          "web" : "http://rt.cpan.org/Public/Dist/Display.html?Name=Test-CheckDeps"
+      },
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/Leont/test-checkdeps.git",
+         "web" : "http://github.com/Leont/test-checkdeps"
       }
    },
-   "version" : "0.001"
+   "version" : "0.002"
 }
 
