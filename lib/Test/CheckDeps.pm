@@ -1,6 +1,6 @@
 package Test::CheckDeps;
 {
-  $Test::CheckDeps::VERSION = '0.002';
+  $Test::CheckDeps::VERSION = '0.003';
 }
 use strict;
 use warnings FATAL => 'all';
@@ -10,19 +10,36 @@ our @EXPORT = qw/check_dependencies/;
 our @EXPORT_OK = qw/check_dependencies_opts/;
 our %EXPORT_TAGS = (all => [ @EXPORT, @EXPORT_OK ] );
 
-use CPAN::Meta;
 use CPAN::Meta::Check qw/check_requirements requirements_for/;
 use List::Util qw/first/;
-use Module::Metadata;
 use Test::Builder;
 
 my $builder = Test::Builder->new;
 
-sub check_dependencies { 
+my %level_of = (
+	requires   => 0,
+	classic    => 1,
+	recommends => 2,
+	suggests   => 3,
+);
+
+sub check_dependencies {
+	my $level = $level_of{shift || 'classic'};
 	my $metafile = first { -e $_ } qw/MYMETA.json MYMETA.yml META.json META.yml/ or return $builder->ok(0, "No META information provided\n");
 	my $meta = CPAN::Meta->load_file($metafile);
 	check_dependencies_opts($meta, $_, 'requires') for qw/configure build test runtime/;
-	check_dependencies_opts($meta, 'runtime', 'conflicts');
+	check_dependencies_opts($meta, 'runtime', 'conflicts') if $level > 0;
+	if ($level > 1) {
+		$builder->todo_start('recommends are not mandatory');
+		check_dependencies_opts($meta, $_, 'recommends') for qw/configure build test runtime/;
+		$builder->todo_end();
+
+		if ($level > 2) {
+			$builder->todo_start('suggests are not mandatory');
+			check_dependencies_opts($meta, $_, 'suggests') for qw/configure build test runtime/;
+			$builder->todo_end();
+		}
+	}
 	return;
 }
 
@@ -33,7 +50,7 @@ sub check_dependencies_opts {
 	my $raw = $reqs->as_string_hash;
 	my $ret = check_requirements($reqs, $type);
 
-	for my $module (keys %{$ret}) {
+	for my $module (sort keys %{$ret}) {
 		$builder->ok(!defined $ret->{$module}, "$module satisfies '" . $raw->{$module} . "'") or $builder->diag($ret->{$module});
 	}
 	return;
@@ -53,7 +70,7 @@ Test::CheckDeps - Check for presence of dependencies
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 DESCRIPTION
 
@@ -61,9 +78,35 @@ This module adds a test that assures all dependencies have been installed proper
 
 =head1 FUNCTIONS
 
-=head2 check_dependencies()
+=head2 check_dependencies( [ level ])
 
-Check all 'requires' dependencies based on a local MYMETA or META file.
+Check dependencies based on a local MYMETA or META file.
+
+The C<level> argument is optional. It can be one of:
+
+=over 4
+
+=item * requires
+
+All 'requires' dependencies are checked (for the configure, build, test and
+runtime phases)
+
+=item * classic
+
+As C<requires>, but 'conflicts' dependencies are also checked.
+
+=item * recommends
+
+As C<classic>, but 'recommends' dependencies are also checked, as TODO tests.
+
+=item * suggests
+
+As C<recommends>, but 'suggests' dependencies are also checked, as TODO tests.
+
+=back
+
+When not provided, C<level> defaults to C<classic> ('requires' and 'conflicts'
+dependencies are checked).
 
 =head2 check_dependencies_opts($meta, $phase, $type)
 
