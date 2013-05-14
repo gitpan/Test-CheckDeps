@@ -20,6 +20,7 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Test::CheckDeps",
   "PREREQ_PM" => {
+    "CPAN::Meta" => 0,
     "CPAN::Meta::Check" => 0,
     "Exporter" => "5.57",
     "List::Util" => 0,
@@ -32,7 +33,7 @@ my %WriteMakefileArgs = (
     "File::Temp" => 0,
     "Test::More" => "0.88"
   },
-  "VERSION" => "0.003",
+  "VERSION" => "0.004",
   "test" => {
     "TESTS" => "t/*.t"
   }

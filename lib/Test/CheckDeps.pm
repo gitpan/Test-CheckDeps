@@ -1,6 +1,6 @@
 package Test::CheckDeps;
 {
-  $Test::CheckDeps::VERSION = '0.003';
+  $Test::CheckDeps::VERSION = '0.004';
 }
 use strict;
 use warnings FATAL => 'all';
@@ -10,6 +10,7 @@ our @EXPORT = qw/check_dependencies/;
 our @EXPORT_OK = qw/check_dependencies_opts/;
 our %EXPORT_TAGS = (all => [ @EXPORT, @EXPORT_OK ] );
 
+use CPAN::Meta;
 use CPAN::Meta::Check qw/check_requirements requirements_for/;
 use List::Util qw/first/;
 use Test::Builder;
@@ -70,7 +71,7 @@ Test::CheckDeps - Check for presence of dependencies
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 DESCRIPTION
 
