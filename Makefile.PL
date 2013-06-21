@@ -21,7 +21,7 @@ my %WriteMakefileArgs = (
   "NAME" => "Test::CheckDeps",
   "PREREQ_PM" => {
     "CPAN::Meta" => 0,
-    "CPAN::Meta::Check" => 0,
+    "CPAN::Meta::Check" => "0.004",
     "Exporter" => "5.57",
     "List::Util" => 0,
     "Test::Builder" => 0,
@@ -33,7 +33,7 @@ my %WriteMakefileArgs = (
     "File::Temp" => 0,
     "Test::More" => "0.88"
   },
-  "VERSION" => "0.004",
+  "VERSION" => "0.005",
   "test" => {
     "TESTS" => "t/*.t"
   }

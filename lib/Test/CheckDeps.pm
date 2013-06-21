@@ -1,6 +1,6 @@
 package Test::CheckDeps;
 {
-  $Test::CheckDeps::VERSION = '0.004';
+  $Test::CheckDeps::VERSION = '0.005';
 }
 use strict;
 use warnings FATAL => 'all';
@@ -11,7 +11,7 @@ our @EXPORT_OK = qw/check_dependencies_opts/;
 our %EXPORT_TAGS = (all => [ @EXPORT, @EXPORT_OK ] );
 
 use CPAN::Meta;
-use CPAN::Meta::Check qw/check_requirements requirements_for/;
+use CPAN::Meta::Check 0.004 qw/check_requirements requirements_for/;
 use List::Util qw/first/;
 use Test::Builder;
 
@@ -61,7 +61,7 @@ sub check_dependencies_opts {
 
 #ABSTRACT: Check for presence of dependencies
 
-
+__END__
 
 =pod
 
@@ -71,7 +71,7 @@ Test::CheckDeps - Check for presence of dependencies
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 DESCRIPTION
 
@@ -125,7 +125,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-
-__END__
-
