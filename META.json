@@ -16,7 +16,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "6.30"
+            "Module::Build::Tiny" : "0.021"
          }
       },
       "develop" : {
@@ -28,7 +28,7 @@
       },
       "runtime" : {
          "requires" : {
-            "CPAN::Meta" : "0",
+            "CPAN::Meta" : "2.120920",
             "CPAN::Meta::Check" : "0.004",
             "Exporter" : "5.57",
             "List::Util" : "0",
@@ -58,6 +58,6 @@
          "web" : "https://github.com/Leont/test-checkdeps"
       }
    },
-   "version" : "0.005"
+   "version" : "0.006"
 }
 
