@@ -1,6 +1,6 @@
 package Test::CheckDeps;
 {
-  $Test::CheckDeps::VERSION = '0.006';
+  $Test::CheckDeps::VERSION = '0.007';
 }
 use strict;
 use warnings FATAL => 'all';
@@ -11,7 +11,7 @@ our @EXPORT_OK = qw/check_dependencies_opts/;
 our %EXPORT_TAGS = (all => [ @EXPORT, @EXPORT_OK ] );
 
 use CPAN::Meta 2.120920;
-use CPAN::Meta::Check 0.004 qw/check_requirements requirements_for/;
+use CPAN::Meta::Check 0.007 qw/check_requirements requirements_for/;
 use List::Util qw/first/;
 use Test::Builder;
 
@@ -52,7 +52,9 @@ sub check_dependencies_opts {
 	my $ret = check_requirements($reqs, $type);
 
 	for my $module (sort keys %{$ret}) {
-		$builder->ok(!defined $ret->{$module}, "$module satisfies '" . $raw->{$module} . "'") or $builder->diag($ret->{$module});
+		$builder->ok(!defined $ret->{$module}, "$module satisfies '" . $raw->{$module} . "'")
+			or $builder->diag($ret->{$module});
+			# Note: when in a TODO, diag behaves like note
 	}
 	return;
 }
@@ -60,8 +62,6 @@ sub check_dependencies_opts {
 1;
 
 #ABSTRACT: Check for presence of dependencies
-
-__END__
 
 =pod
 
@@ -71,7 +71,7 @@ Test::CheckDeps - Check for presence of dependencies
 
 =head1 VERSION
 
-version 0.006
+version 0.007
 
 =head1 DESCRIPTION
 
@@ -125,3 +125,7 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
+
+__END__
+
+# vi:noet:sts=2:sw=2:ts=2

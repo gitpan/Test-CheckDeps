@@ -3,13 +3,13 @@ abstract: 'Check for presence of dependencies'
 author:
   - 'Leon Timmermans <leont@cpan.org>'
 build_requires:
-  File::Find: 0
-  File::Temp: 0
+  IO::Handle: 0
+  IPC::Open3: 0
   Test::More: 0.88
 configure_requires:
-  Module::Build::Tiny: 0.021
+  Module::Build::Tiny: 0.027
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300034, CPAN::Meta::Converter version 2.120921'
+generated_by: 'Dist::Zilla version 4.300038, CPAN::Meta::Converter version 2.132140'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -17,7 +17,7 @@ meta-spec:
 name: Test-CheckDeps
 requires:
   CPAN::Meta: 2.120920
-  CPAN::Meta::Check: 0.004
+  CPAN::Meta::Check: 0.007
   Exporter: 5.57
   List::Util: 0
   Test::Builder: 0
@@ -27,4 +27,7 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Test-CheckDeps
   repository: git://github.com/Leont/test-checkdeps.git
-version: 0.006
+version: 0.007
+x_contributors:
+  - 'Karen Etheridge <ether@cpan.org>'
+  - 'Leon Timmermans <fawaka@gmail.com>'
