@@ -4,7 +4,7 @@
       "Leon Timmermans <leont@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300038, CPAN::Meta::Converter version 2.132140",
+   "generated_by" : "Dist::Zilla version 4.300038, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -16,7 +16,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Module::Build::Tiny" : "0.027"
+            "ExtUtils::MakeMaker" : "6.30"
          }
       },
       "develop" : {
@@ -40,6 +40,7 @@
       },
       "test" : {
          "requires" : {
+            "File::Spec" : "0",
             "IO::Handle" : "0",
             "IPC::Open3" : "0",
             "Test::More" : "0.88"
@@ -58,7 +59,7 @@
          "web" : "https://github.com/Leont/test-checkdeps"
       }
    },
-   "version" : "0.007",
+   "version" : "0.008",
    "x_contributors" : [
       "Karen Etheridge <ether@cpan.org>",
       "Leon Timmermans <fawaka@gmail.com>"
