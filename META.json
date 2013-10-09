@@ -43,15 +43,14 @@
             "File::Spec" : "0",
             "IO::Handle" : "0",
             "IPC::Open3" : "0",
-            "Test::CheckDeps" : "0.007",
-            "Test::More" : "0.94"
+            "Test::More" : "0.88"
          }
       }
    },
    "provides" : {
       "Test::CheckDeps" : {
          "file" : "lib/Test/CheckDeps.pm",
-         "version" : "0.009"
+         "version" : "0.010"
       }
    },
    "release_status" : "stable",
@@ -66,7 +65,7 @@
          "web" : "https://github.com/Leont/test-checkdeps"
       }
    },
-   "version" : "0.009",
+   "version" : "0.010",
    "x_contributors" : [
       "Karen Etheridge <ether@cpan.org>",
       "Leon Timmermans <fawaka@gmail.com>"
