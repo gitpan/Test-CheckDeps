@@ -1,6 +1,6 @@
 package Test::CheckDeps;
 {
-  $Test::CheckDeps::VERSION = '0.008';
+  $Test::CheckDeps::VERSION = '0.009';
 }
 use strict;
 use warnings FATAL => 'all';
@@ -26,21 +26,24 @@ my %level_of = (
 
 sub check_dependencies {
 	my $level = $level_of{shift || 'classic'};
+	local $Test::Builder::Level = $Test::Builder::Level + 1;
 	my $metafile = first { -e $_ } qw/MYMETA.json MYMETA.yml META.json META.yml/ or return $builder->ok(0, "No META information provided\n");
 	my $meta = CPAN::Meta->load_file($metafile);
 	check_dependencies_opts($meta, $_, 'requires') for qw/configure build test runtime/;
-	check_dependencies_opts($meta, 'runtime', 'conflicts') if $level > 0;
-	if ($level > 1) {
+	check_dependencies_opts($meta, 'runtime', 'conflicts') if $level >= $level_of{classic};
+	if ($level >= $level_of{recommends}) {
 		$builder->todo_start('recommends are not mandatory');
 		check_dependencies_opts($meta, $_, 'recommends') for qw/configure build test runtime/;
 		$builder->todo_end();
 
-		if ($level > 2) {
+		if ($level >= $level_of{suggests}) {
 			$builder->todo_start('suggests are not mandatory');
 			check_dependencies_opts($meta, $_, 'suggests') for qw/configure build test runtime/;
 			$builder->todo_end();
 		}
 	}
+	check_dependencies_opts($meta, 'develop', 'requires') if $ENV{AUTHOR_TESTING};
+
 	return;
 }
 
@@ -51,6 +54,7 @@ sub check_dependencies_opts {
 	my $raw = $reqs->as_string_hash;
 	my $ret = check_requirements($reqs, $type);
 
+	local $Test::Builder::Level = $Test::Builder::Level + 1;
 	for my $module (sort keys %{$ret}) {
 		$builder->ok(!defined $ret->{$module}, "$module satisfies '" . $raw->{$module} . "'")
 			or $builder->diag($ret->{$module});
@@ -63,6 +67,10 @@ sub check_dependencies_opts {
 
 #ABSTRACT: Check for presence of dependencies
 
+# vim: set ts=2 sw=2 noet nolist :
+
+__END__
+
 =pod
 
 =head1 NAME
@@ -71,7 +79,16 @@ Test::CheckDeps - Check for presence of dependencies
 
 =head1 VERSION
 
-version 0.008
+version 0.009
+
+=head1 SYNOPSIS
+
+ use Test::More 0.94;
+ use Test::CheckDeps 0.007;
+ 
+ check_dependencies();
+
+ done_testing();
 
 =head1 DESCRIPTION
 
@@ -89,8 +106,9 @@ The C<level> argument is optional. It can be one of:
 
 =item * requires
 
-All 'requires' dependencies are checked (for the configure, build, test and
-runtime phases)
+All 'requires' dependencies are checked (the configure, build, test and
+runtime phases are always checked, and the develop phase is also tested when
+AUTHOR_TESTING is set)
 
 =item * classic
 
@@ -125,7 +143,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-__END__
-
-# vi:noet:sts=2:sw=2:ts=2
